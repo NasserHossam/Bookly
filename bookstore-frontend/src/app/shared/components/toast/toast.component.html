@@ -1,0 +1,14 @@
+<div class="toast-container">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast" [class]="toast.type">
+      <i class="fa-solid"
+         [class.fa-circle-check]="toast.type === 'success'"
+         [class.fa-circle-exclamation]="toast.type === 'error'"
+         [class.fa-circle-info]="toast.type === 'info'"></i>
+      <span>{{ toast.message }}</span>
+      <button (click)="toastService.dismiss(toast.id)" aria-label="Dismiss">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,43 @@
+.profile-page {
+  padding: 50px 24px 70px;
+  max-width: 900px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.profile-card {
+  padding: 28px;
+}
+
+.profile-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.profile-card h3 i {
+  color: var(--color-accent);
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}

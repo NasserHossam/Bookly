@@ -1,0 +1,70 @@
+<section class="books-page container">
+  <div class="page-header">
+    <h1>Our Books</h1>
+    <p>Browse our full collection</p>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="text"
+        placeholder="Search by title or author..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilters()"
+      />
+    </div>
+
+    <select [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()">
+      @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <span class="spinner"></span> Loading books...
+    </div>
+  } @else if (filteredBooks.length === 0) {
+    <div class="empty-state">
+      <i class="fa-solid fa-book"></i>
+      <p>No books available</p>
+    </div>
+  } @else {
+    <div class="book-grid">
+      @for (book of filteredBooks; track book.id) {
+        <a [routerLink]="['/books', book.id]" class="book-card card">
+          <div class="book-cover">
+            @if (book.imageUrl) {
+              <img [src]="book.imageUrl" [alt]="book.title" (error)="hideBrokenImage($event)" />
+            } @else {
+              <i class="fa-solid fa-book"></i>
+            }
+          </div>
+          <div class="book-info">
+            <h3>{{ book.title }}</h3>
+            <p class="author">{{ book.author }}</p>
+            <span class="category-tag">{{ book.category }}</span>
+            <p class="price">${{ book.price }}</p>
+            <div class="card-actions">
+              <span class="view-link">View Details <i class="fa-solid fa-arrow-right"></i></span>
+              <button
+                class="quick-add-btn"
+                (click)="quickAddToCart($event, book)"
+                [disabled]="addingBookId === book.id"
+                aria-label="Add to cart"
+              >
+                @if (addingBookId === book.id) {
+                  <span class="spinner"></span>
+                } @else {
+                  <i class="fa-solid fa-cart-plus"></i>
+                }
+              </button>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</section>

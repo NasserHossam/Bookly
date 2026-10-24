@@ -1,0 +1,51 @@
+<section class="details-page container">
+  @if (loading) {
+    <div class="loading-wrap">
+      <span class="spinner"></span> Loading book...
+    </div>
+  } @else if (notFound || !book) {
+    <div class="empty-state">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p>Book not found</p>
+      <a routerLink="/books" class="btn btn-outline">Back to Books</a>
+    </div>
+  } @else {
+    <a routerLink="/books" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Books</a>
+
+    <div class="details-grid card">
+      <div class="cover-col">
+        @if (book.imageUrl) {
+          <img [src]="book.imageUrl" [alt]="book.title" (error)="hideBrokenImage($event)" />
+        } @else {
+          <div class="placeholder-cover">
+            <i class="fa-solid fa-book"></i>
+          </div>
+        }
+      </div>
+
+      <div class="info-col">
+        <span class="category-tag">{{ book.category }}</span>
+        <h1>{{ book.title }}</h1>
+        <p class="author">by {{ book.author }}</p>
+        <p class="price">${{ book.price }}</p>
+        <h3>Description</h3>
+        <p class="description">{{ book.description }}</p>
+
+        <div class="add-to-cart-row">
+          <div class="qty-control">
+            <button class="qty-btn" (click)="decrementQty()" [disabled]="quantity <= 1">-</button>
+            <span>{{ quantity }}</span>
+            <button class="qty-btn" (click)="incrementQty()">+</button>
+          </div>
+          <button class="btn btn-primary" (click)="addToCart()" [disabled]="addingToCart">
+            @if (addingToCart) {
+              <span class="spinner"></span> Adding...
+            } @else {
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

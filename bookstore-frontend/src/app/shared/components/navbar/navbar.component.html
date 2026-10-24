@@ -1,0 +1,43 @@
+<nav class="navbar">
+  <div class="navbar-inner container">
+    <a routerLink="/home" class="brand">
+      <i class="fa-solid fa-book-open"></i>
+      <span>BOOKLY</span>
+    </a>
+
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      <i class="fa-solid" [class.fa-bars]="!menuOpen" [class.fa-xmark]="menuOpen"></i>
+    </button>
+
+    <div class="nav-links" [class.open]="menuOpen">
+      <a routerLink="/home" routerLinkActive="active" (click)="menuOpen = false">Home</a>
+      <a routerLink="/books" routerLinkActive="active" (click)="menuOpen = false">Books</a>
+
+      @if (authService.isAuthenticated() && !authService.isAdmin()) {
+        <a routerLink="/purchases" routerLinkActive="active" (click)="menuOpen = false">My Purchases</a>
+      }
+
+      @if (authService.isAdmin()) {
+        <a routerLink="/admin/books" routerLinkActive="active" (click)="menuOpen = false">Manage Books</a>
+        <a routerLink="/admin/admins" routerLinkActive="active" (click)="menuOpen = false">Manage Admins</a>
+      }
+
+      <div class="nav-auth">
+        @if (authService.isAuthenticated()) {
+          <a routerLink="/cart" class="cart-link" (click)="menuOpen = false" aria-label="Cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            @if (cartService.itemCount() > 0) {
+              <span class="cart-badge">{{ cartService.itemCount() }}</span>
+            }
+          </a>
+          <a routerLink="/profile" class="welcome-text" (click)="menuOpen = false">
+            Welcome, {{ authService.currentName() || authService.currentEmail() }}
+          </a>
+          <button class="btn btn-outline" (click)="logout()">Logout</button>
+        } @else {
+          <a routerLink="/login" class="btn btn-outline">Login</a>
+        }
+      </div>
+    </div>
+  </div>
+</nav>

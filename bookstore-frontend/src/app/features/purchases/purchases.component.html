@@ -1,0 +1,58 @@
+<section class="purchases-page container">
+  <div class="page-header">
+    <h1>My Purchases</h1>
+    <p>Your past orders</p>
+  </div>
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <span class="spinner"></span> Loading purchases...
+    </div>
+  } @else if (orders.length === 0) {
+    <div class="empty-state">
+      <i class="fa-solid fa-receipt"></i>
+      <p>No purchases yet</p>
+      <a routerLink="/books" class="btn btn-outline">Browse Books</a>
+    </div>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders; track order.id) {
+        <div class="order-card card">
+          <div class="order-header" (click)="toggleExpand(order.id)">
+            <div>
+              <span class="order-id">Order #{{ order.id }}</span>
+              <span class="order-date">{{ order.orderDate | date: 'medium' }}</span>
+            </div>
+            <div class="order-header-right">
+              <span class="order-status">{{ order.status }}</span>
+              <span class="order-total">${{ order.totalAmount.toFixed(2) }}</span>
+              <i class="fa-solid" [class.fa-chevron-down]="expandedOrderId !== order.id" [class.fa-chevron-up]="expandedOrderId === order.id"></i>
+            </div>
+          </div>
+
+          @if (expandedOrderId === order.id) {
+            <div class="order-items">
+              @for (item of order.items; track item.bookTitle) {
+                <div class="order-item">
+                  <div class="item-cover">
+                    @if (item.bookImageUrl) {
+                      <img [src]="item.bookImageUrl" [alt]="item.bookTitle" (error)="$any($event.target).style.display='none'" />
+                    } @else {
+                      <i class="fa-solid fa-book"></i>
+                    }
+                  </div>
+                  <div class="item-info">
+                    <h4>{{ item.bookTitle }}</h4>
+                    <p>{{ item.bookAuthor }}</p>
+                  </div>
+                  <div class="item-qty">x{{ item.quantity }}</div>
+                  <div class="item-line-total">${{ item.lineTotal.toFixed(2) }}</div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,53 @@
+<div class="auth-page">
+  <div class="auth-card card">
+    <div class="auth-header">
+      <i class="fa-solid fa-book-open"></i>
+      <h2>Create your BOOKLY account</h2>
+      <p>Join thousands of readers today</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+        @if (form.get('email')?.touched && form.get('email')?.invalid) {
+          <div class="error-text">Please enter a valid email</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" formControlName="phone" placeholder="01xxxxxxxxx" />
+        @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
+          <div class="error-text">Please enter a valid phone number</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="At least 6 characters" />
+        @if (form.get('password')?.touched && form.get('password')?.invalid) {
+          <div class="error-text">Password must be at least 6 characters</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Re-enter password" />
+        @if (form.get('confirmPassword')?.touched && form.errors?.['mismatch']) {
+          <div class="error-text">Passwords do not match</div>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary full-width" [disabled]="loading">
+        @if (loading) {
+          <span class="spinner"></span> Creating account...
+        } @else {
+          Sign Up
+        }
+      </button>
+    </form>
+
+    <p class="switch-auth">Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</div>

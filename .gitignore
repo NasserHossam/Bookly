@@ -1,0 +1,18 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Backend
+demo/target/
+
+# Frontend
+bookstore-frontend/node_modules/
+bookstore-frontend/dist/
+bookstore-frontend/.angular/
+
+# Env / secrets
+.env
+*.env

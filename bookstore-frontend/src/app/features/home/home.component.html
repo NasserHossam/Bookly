@@ -1,0 +1,46 @@
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h1>Discover Your Next Great Story</h1>
+      <p>Explore thousands of books and find your next favorite.</p>
+      <a routerLink="/books" class="btn btn-accent">Explore Books</a>
+    </div>
+    <div class="hero-visual">
+      <i class="fa-solid fa-book-open-reader"></i>
+    </div>
+  </div>
+</section>
+
+<section class="featured container">
+  <h2>Featured Books</h2>
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <span class="spinner"></span> Loading books...
+    </div>
+  } @else if (books.length === 0) {
+    <div class="empty-state">
+      <i class="fa-solid fa-book"></i>
+      <p>No books available</p>
+    </div>
+  } @else {
+    <div class="book-grid">
+      @for (book of books; track book.id) {
+        <a [routerLink]="['/books', book.id]" class="book-card card">
+          <div class="book-cover">
+            @if (book.imageUrl) {
+              <img [src]="book.imageUrl" [alt]="book.title" />
+            } @else {
+              <i class="fa-solid fa-book"></i>
+            }
+          </div>
+          <div class="book-info">
+            <h3>{{ book.title }}</h3>
+            <p class="price">${{ book.price }}</p>
+            <span class="view-link">View Details <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</section>

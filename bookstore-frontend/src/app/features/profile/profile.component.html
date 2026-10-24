@@ -1,0 +1,85 @@
+<section class="profile-page container">
+  <div class="page-header">
+    <h1>My Profile</h1>
+    <p>Manage your account details</p>
+  </div>
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <span class="spinner"></span> Loading profile...
+    </div>
+  } @else {
+    <div class="profile-grid">
+      <div class="card profile-card">
+        <h3><i class="fa-solid fa-user"></i> Account Details</h3>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" formControlName="name" placeholder="Your name" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+            @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+              <div class="error-text">Please enter a valid email</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" formControlName="phone" placeholder="01xxxxxxxxx" />
+            @if (profileForm.get('phone')?.touched && profileForm.get('phone')?.invalid) {
+              <div class="error-text">Please enter a valid phone number</div>
+            }
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width" [disabled]="savingProfile">
+            @if (savingProfile) {
+              <span class="spinner"></span> Saving...
+            } @else {
+              Save Changes
+            }
+          </button>
+        </form>
+      </div>
+
+      <div class="card profile-card">
+        <h3><i class="fa-solid fa-lock"></i> Change Password</h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input id="currentPassword" type="password" formControlName="currentPassword" placeholder="Current password" />
+            @if (passwordForm.get('currentPassword')?.touched && passwordForm.get('currentPassword')?.invalid) {
+              <div class="error-text">Current password is required</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input id="newPassword" type="password" formControlName="newPassword" placeholder="At least 6 characters" />
+            @if (passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid) {
+              <div class="error-text">Password must be at least 6 characters</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input id="confirmNewPassword" type="password" formControlName="confirmNewPassword" placeholder="Re-enter new password" />
+            @if (passwordForm.get('confirmNewPassword')?.touched && passwordForm.errors?.['mismatch']) {
+              <div class="error-text">Passwords do not match</div>
+            }
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width" [disabled]="savingPassword">
+            @if (savingPassword) {
+              <span class="spinner"></span> Updating...
+            } @else {
+              Change Password
+            }
+          </button>
+        </form>
+      </div>
+    </div>
+  }
+</section>
